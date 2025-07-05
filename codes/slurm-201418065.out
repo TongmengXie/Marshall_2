@@ -1,0 +1,129 @@
+Input Notebook:  occ_sim_US_get_cosine_sim_matrix.ipynb
+Output Notebook: outputs/occ_sim_US_get_cosine_sim_matrix_out.ipynb
+Executing:   0%|                                                                                                                                                          | 0/12 [00:00<?, ?cell/s]Executing notebook with kernel: python3
+Executing:   8%|████████████                                                                                                                                     | 1/12 [01:56<21:23, 116.67s/cell]Executing:  17%|████████████████████████▎                                                                                                                         | 2/12 [01:57<08:03, 48.35s/cell]Executing:  25%|████████████████████████████████████▌                                                                                                             | 3/12 [02:03<04:22, 29.16s/cell]Executing:  25%|████████████████████████████████████▌                                                                                                             | 3/12 [02:04<06:12, 41.34s/cell]
+Traceback (most recent call last):
+  File "/users/xiet13/.conda/envs/hist_link/bin/papermill", line 8, in <module>
+    sys.exit(papermill())
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/click/core.py", line 1157, in __call__
+    return self.main(*args, **kwargs)
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/click/core.py", line 1078, in main
+    rv = self.invoke(ctx)
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/click/core.py", line 1434, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/click/core.py", line 783, in invoke
+    return __callback(*args, **kwargs)
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/click/decorators.py", line 33, in new_func
+    return f(get_current_context(), *args, **kwargs)
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/papermill/cli.py", line 250, in papermill
+    execute_notebook(
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/papermill/execute.py", line 128, in execute_notebook
+    raise_for_execution_errors(nb, output_path)
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/papermill/execute.py", line 232, in raise_for_execution_errors
+    raise error
+papermill.exceptions.PapermillExecutionError: 
+---------------------------------------------------------------------------
+Exception encountered at "In [3]":
+---------------------------------------------------------------------------
+_RemoteTraceback                          Traceback (most recent call last)
+_RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/joblib/_parallel_backends.py", line 273, in _wrap_func_call
+    return func()
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/joblib/parallel.py", line 589, in __call__
+    return [func(*args, **kwargs)
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/joblib/parallel.py", line 589, in <listcomp>
+    return [func(*args, **kwargs)
+  File "/tmp/ipykernel_13689/3052696353.py", line 12, in compute_row_cosine_similarity
+    return cosine_similarity(dtm[row_idx], dtm, dense_output=False).toarray()[0]
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/sklearn/utils/_param_validation.py", line 211, in wrapper
+    return func(*args, **kwargs)
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/sklearn/metrics/pairwise.py", line 1578, in cosine_similarity
+    X, Y = check_pairwise_arrays(X, Y)
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/sklearn/metrics/pairwise.py", line 173, in check_pairwise_arrays
+    Y = check_array(
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/sklearn/utils/validation.py", line 881, in check_array
+    array = _ensure_sparse_format(
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/sklearn/utils/validation.py", line 559, in _ensure_sparse_format
+    spmatrix = spmatrix.astype(dtype)
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/scipy/sparse/_data.py", line 71, in astype
+    return self._with_data(
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/scipy/sparse/_compressed.py", line 1230, in _with_data
+    return self.__class__((data, self.indices.copy(),
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/scipy/sparse/_compressed.py", line 106, in __init__
+    self.check_format(full_check=False)
+  File "/users/xiet13/.conda/envs/hist_link/lib/python3.8/site-packages/scipy/sparse/_compressed.py", line 176, in check_format
+    raise ValueError("indices and data should have the same size")
+ValueError: indices and data should have the same size
+"""
+
+The above exception was the direct cause of the following exception:
+
+ValueError                                Traceback (most recent call last)
+Cell In[3], line 15
+     12     return cosine_similarity(dtm[row_idx], dtm, dense_output=False).toarray()[0]
+     14 # Parallel computation with a progress bar
+---> 15 results = Parallel(n_jobs=-1, prefer="threads")(
+     16     delayed(compute_row_cosine_similarity)(i, dtm) for i in tqdm(range(n_rows), desc="Computing cosine similarity")
+     17 )
+     19 # Combine results into a sparse matrix
+     20 cosine_sim_matrix = csr_matrix(results)
+
+File ~/.conda/envs/hist_link/lib/python3.8/site-packages/joblib/parallel.py:1952, in Parallel.__call__(self, iterable)
+   1946 # The first item from the output is blank, but it makes the interpreter
+   1947 # progress until it enters the Try/Except block of the generator and
+   1948 # reach the first `yield` statement. This starts the aynchronous
+   1949 # dispatch of the tasks to the workers.
+   1950 next(output)
+-> 1952 return output if self.return_generator else list(output)
+
+File ~/.conda/envs/hist_link/lib/python3.8/site-packages/joblib/parallel.py:1595, in Parallel._get_outputs(self, iterator, pre_dispatch)
+   1592     yield
+   1594     with self._backend.retrieval_context():
+-> 1595         yield from self._retrieve()
+   1597 except GeneratorExit:
+   1598     # The generator has been garbage collected before being fully
+   1599     # consumed. This aborts the remaining tasks if possible and warn
+   1600     # the user if necessary.
+   1601     self._exception = True
+
+File ~/.conda/envs/hist_link/lib/python3.8/site-packages/joblib/parallel.py:1699, in Parallel._retrieve(self)
+   1692 while self._wait_retrieval():
+   1693 
+   1694     # If the callback thread of a worker has signaled that its task
+   1695     # triggered an exception, or if the retrieval loop has raised an
+   1696     # exception (e.g. `GeneratorExit`), exit the loop and surface the
+   1697     # worker traceback.
+   1698     if self._aborting:
+-> 1699         self._raise_error_fast()
+   1700         break
+   1702     # If the next job is not ready for retrieval yet, we just wait for
+   1703     # async callbacks to progress.
+
+File ~/.conda/envs/hist_link/lib/python3.8/site-packages/joblib/parallel.py:1734, in Parallel._raise_error_fast(self)
+   1730 # If this error job exists, immediatly raise the error by
+   1731 # calling get_result. This job might not exists if abort has been
+   1732 # called directly or if the generator is gc'ed.
+   1733 if error_job is not None:
+-> 1734     error_job.get_result(self.timeout)
+
+File ~/.conda/envs/hist_link/lib/python3.8/site-packages/joblib/parallel.py:736, in BatchCompletionCallBack.get_result(self, timeout)
+    730 backend = self.parallel._backend
+    732 if backend.supports_retrieve_callback:
+    733     # We assume that the result has already been retrieved by the
+    734     # callback thread, and is stored internally. It's just waiting to
+    735     # be returned.
+--> 736     return self._return_or_raise()
+    738 # For other backends, the main thread needs to run the retrieval step.
+    739 try:
+
+File ~/.conda/envs/hist_link/lib/python3.8/site-packages/joblib/parallel.py:754, in BatchCompletionCallBack._return_or_raise(self)
+    752 try:
+    753     if self.status == TASK_ERROR:
+--> 754         raise self._result
+    755     return self._result
+    756 finally:
+
+ValueError: indices and data should have the same size
+

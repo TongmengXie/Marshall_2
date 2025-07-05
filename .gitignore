@@ -1,0 +1,22 @@
+# Ignore data directories and .dat
+*_data/
+*.dat
+# API_KEYs
+.env
+# Ignore others directory
+others/
+tmp/
+
+# Ignore model subdirectory
+model/Llama-3.1-8B-Instruct/
+
+# Ignore specific code subdirectories
+codes/Meta-Llama-3.1-8B-Instruct/
+codes/OccCANINE/
+
+# check point notebooks
+codes/.ipynb_checkpoints
+.ipynb_checkpoints
+
+#
+.clinerules
